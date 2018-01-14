@@ -84,8 +84,7 @@ type=rpm-md" > /etc/yum.repos.d/elasticsearch.repo
 	sudo /bin/systemctl daemon-reload
 	sudo /bin/systemctl enable elasticsearch.service
 	sudo systemctl start elasticsearch.service
-	sudo sed s/"#network.host: 192.168.56.10"/"network.host: 192.168.56.10"/ /etc/elasticsearch/elasticsearch.yml
-	sudo sed s/"#http.port: 9200"/"http.port:9200"/ /etc/elasticsearch/elasticsearch.yml
+	sudo sed -i 's/#network.host: 192.168.0.1/network.host: 192.168.56.10/' /etc/elasticsearch/elasticsearch.yml 
 	sudo systemctl restart elasticsearch.service
 	echo "DONE!"
    SHELL
