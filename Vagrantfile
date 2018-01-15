@@ -64,7 +64,7 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
 
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", path: "https://gist.githubusercontent.com/m0jtaba/52c5cef9ad92d753cea0c8bdd7986c0c/raw/8dfb80d1ebfaa268b3f11121b0475fc0c0eee379/stretchyVagrant.sh"
+  # config.vm.provision "shell", path: "https://gist.githubusercontent.com/m0jtaba/52c5cef9ad92d753cea0c8bdd7986c0c/raw/2432e53ac0fc7838636ae9932273571bcd196dc9/stretchyVagrant.sh"
   config.vm.provision "file", source: "elasticsearch.repo", destination: "/home/vagrant/elasticsearch.repo"
   config.vm.provision "shell", path: "stretchyVagrant.sh"
   
