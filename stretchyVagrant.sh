@@ -75,3 +75,24 @@ else
     sudo sed -i 's;#elasticsearch.url: "http://localhost:9200";elasticsearch.url: http://192.168.56.10:9200;' /etc/kibana/kibana.yml;
     sudo systemctl start kibana.service;
 fi
+
+#X-Pack for elasticsearch
+if (sudo /usr/share/elasticsearch/bin/elasticsearch-plugin list | grep x-pack);
+then
+    echo -e "\e[42mX-Pack already installed for elasticsearch.\[0m"
+else
+    echo -e "\e[45mInstalling x-pack plugin for elasticsearch..........\e[0m";
+    sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
+    send "y"
+    send "y"
+fi
+
+#X-Pack for kibana
+
+if (sudo /usr/share/kibana/bin/kibana-plugin install x-pack | grep x-pack);
+then
+    echo -e "\e[42mX-Pack already installed for kibana.\[0m";
+else
+    echo -e "\e[45mInstalling x-pack plugin for kibana......\e[0m";
+    sudo /usr/share/kibana/bin/kibana-plugin install x-pack;
+fi
