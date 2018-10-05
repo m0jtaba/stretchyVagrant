@@ -40,8 +40,8 @@ then
     echo -e "\e[42mJava 1.8 already installed.\e[0m";
 else
     echo -e "\e[45mInstalling java 1.8..........\e[0m";
-    wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.rpm";
-    sudo yum -y localinstall -y jdk-8u151-linux-x64.rpm;
+    wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.rpm";
+    sudo yum -y localinstall -y jdk-8u181-linux-x64.rpm;
 fi
 
 #Elasticsearch
@@ -60,7 +60,7 @@ else
     sudo sed -i 's/#network.host: 192.168.0.1/network.host: 192.168.56.10/' /etc/elasticsearch/elasticsearch.yml;
     sudo systemctl start elasticsearch.service;
 fi
- 
+
 #Kibana
 if (yum list installed | grep kibana.x86_64);
 then
@@ -75,3 +75,17 @@ else
     sudo sed -i 's;#elasticsearch.url: "http://localhost:9200";elasticsearch.url: http://192.168.56.10:9200;' /etc/kibana/kibana.yml;
     sudo systemctl start kibana.service;
 fi
+
+#Metricbeat
+if (yum list installed | grep metricbeat)
+then
+    echo -e "\e[42mMetricbeat is already installed.\e[0m";
+else
+    echo -e "\e[45mInstalling metricbeat..........\e[0m";
+    sudo yum -y install metricbeat
+    sudo chkconfig --add metricbeat
+    sudo sed -i 's/#- cpu/- cpu/' /etc/metricbeat/metricbeat.yml
+    sudo sed -i 's/#- core/- core/' /etc/metricbeat/metricbeat.yml
+    sudo sed -i 's/"localhost:9200"/"192.168.56.10:9200"/' /etc/metricbeat/metricbeat.yml
+    sudo /usr/share/metricbeat/scripts/import_dashboards -es http://192.168.56.10:9200
+    sudo systemctl start metricbeat
