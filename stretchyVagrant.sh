@@ -89,3 +89,4 @@ else
     sudo sed -i 's/"localhost:9200"/"192.168.56.10:9200"/' /etc/metricbeat/metricbeat.yml
     sudo /usr/share/metricbeat/scripts/import_dashboards -es http://192.168.56.10:9200
     sudo systemctl start metricbeat
+fi
